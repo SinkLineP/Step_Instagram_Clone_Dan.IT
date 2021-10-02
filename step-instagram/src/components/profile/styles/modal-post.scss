@@ -1,0 +1,31 @@
+.animation-like-photo {
+    animation-name: likePhoto;
+    animation-duration: 4s;
+}
+
+.like-png {
+    opacity: 0;
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    transform: translateX(290px) translateY(290%);    
+}
+
+.animate-like {
+    animation-name: likePhoto;
+    animation-duration: 2s;
+}
+
+
+
+@keyframes likePhoto {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
