@@ -1,35 +1,17 @@
 /* eslint-disable no-nested-ternary */
-import { useState } from 'react';
 import PropTypes from 'prop-types';
 import Skeleton from 'react-loading-skeleton';
-import Modal from 'react-modal';
 import './styles/photos.scss';
 
 export default function Photos({ photos }) {
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-
-  const setModalIsOpenToTrue = () => {
-    setModalIsOpen(true);
-  };
-
-  const setModalIsOpenToFalse = () => {
-    setModalIsOpen(false);
-  };
-
   return (
     <div className="h-16 border-t border-gray-primary mt-12 pt-4">
-      <Modal isOpen={modalIsOpen}>
-        <button type="button" onClick={setModalIsOpenToFalse} className="close-btn-modal">
-          x
-        </button>
-        <modalPost />
-      </Modal>
       <div className="grid grid-cols-3 gap-8 mt-4 mb-12">
         {!photos
           ? new Array(12).fill(0).map((_, i) => <Skeleton key={i} width={320} height={400} />)
           : photos.length > 0
           ? photos.map((photo) => (
-              <button type="button" onClick={setModalIsOpenToTrue}>
+              <button type="button">
                 <div key={photo.docId} className="relative group">
                   <img src={photo.imageSrc} alt={photo.caption} />
 
