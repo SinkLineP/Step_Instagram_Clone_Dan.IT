@@ -9,7 +9,7 @@ export default function Comments({ docId, comments: allComments, posted, comment
   const [commentsSlice, setCommentsSlice] = useState(1);
 
   const showNextComments = () => {
-    setCommentsSlice(commentsSlice + 10);
+    setCommentsSlice(commentsSlice + 3);
   };
 
   return (
