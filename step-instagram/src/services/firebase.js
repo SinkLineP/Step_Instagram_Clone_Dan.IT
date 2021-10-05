@@ -43,7 +43,7 @@ export async function getSuggestedProfiles(userId, following) {
   } else {
     query = query.where('userId', '!=', userId);
   }
-  const result = await query.limit(100).get();
+  const result = await query.limit(10).get();
 
   const profiles = result.docs.map((user) => ({
     ...user.data(),
@@ -62,7 +62,7 @@ export async function getFollowedProfiles(userId, following) {
   } else {
     query = query.where('userId', '!=', userId);
   }
-  const result = await query.limit(100).get();
+  const result = await query.limit(10).get();
 
   const profiles = result.docs.map((user) => ({
     ...user.data(),
