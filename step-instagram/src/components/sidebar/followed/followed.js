@@ -1,6 +1,7 @@
 /* eslint-disable no-nested-ternary */
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import './styles/followed.scss';
 import Skeleton from 'react-loading-skeleton';
 import { getFollowedProfiles } from '../../../services/firebase';
 import FollowedProfile from './followed-profile';
@@ -27,9 +28,9 @@ export default function Followed({ userId, following, loggedInUserDocId, titleSi
   ) : profiles.length > 0 ? (
     <div className="rounded flex flex-col">
       <div className="text-sm flex items-center align-items justify-between mb-2">
-        <p className="font-bold text-gray-base">{titleSideBar}</p>
+        <p className="font-bold text-gray-base subscript">{titleSideBar}</p>
       </div>
-      <div className="mt-4 grid gap-5">
+      <div className="mt-4 grid gap-5 prokrutka">
         {profiles.map((profile) => (
           <>
             <FollowedProfile
