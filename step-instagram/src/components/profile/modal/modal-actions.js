@@ -48,7 +48,7 @@ export default function ModalActions({
         <img
           src={likeSrc}
           alt={caption}
-          className={`like-png ${toggleLiked ? 'animate-like' : null}`}
+          className={`like-png-modal ${toggleLiked ? 'animate-like' : null}`}
         />
         <img src={src} alt={caption} />
       </button>
