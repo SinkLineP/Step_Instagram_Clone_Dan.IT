@@ -34,7 +34,12 @@ export default function Photos({ photos }) {
   const handleFocus = () => commentInput.current.focus();
   return (
     <div className="h-16 border-t border-gray-primary mt-12 pt-4">
-      <Button variant="contained" disableElevation onClick={handleOpenAddPost}>
+      <Button
+        variant="contained"
+        disableElevation
+        className="btn_add_post"
+        onClick={handleOpenAddPost}
+      >
         Add post
       </Button>
       <div className="h-16 border-t border-gray-primary mt-12 pt-4" />
@@ -130,10 +135,27 @@ export default function Photos({ photos }) {
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
-          <Box sx={style}>
+          <Box className="modal_add_post">
             <div>
-              <div>images</div>
-              <div>text</div>
+              <div>
+                <p>Добавьте публикацию:</p>
+                <br />
+                <form encType="multipart/form-data" method="post">
+                  <p>
+                    <input type="file" name="photo" multiple accept="image/*,image/jpeg" />
+                    <p>
+                      <br />
+                      <br />
+                      Описание:
+                      <br />
+                      <br />
+                      <textarea name="comment" cols="40" rows="3" className="description" />
+                    </p>
+
+                    <input type="submit" value="Отправить" className="submit_form" />
+                  </p>
+                </form>
+              </div>
             </div>
           </Box>
         </Modal>
