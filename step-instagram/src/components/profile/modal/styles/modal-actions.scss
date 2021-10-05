@@ -8,9 +8,10 @@
     position: absolute;
     width: 100px;
     height: 100px;
-    transform: translateX(290px) translateY(290%);    
+    transform: translateX(120px) translateY(80%);    
 }
 
+// скорость и анимация лайка
 .animate-like {
     animation-name: likePhoto;
     animation-duration: 2s;

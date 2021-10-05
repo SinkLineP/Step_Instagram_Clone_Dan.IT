@@ -1,10 +1,10 @@
 import { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
-import FirebaseContext from '../../context/firebase';
-import UserContext from '../../context/user';
-import './styles/actions.scss';
+import FirebaseContext from '../../../context/firebase';
+import UserContext from '../../../context/user';
+import './styles/modal-actions.scss';
 
-export default function Actions({
+export default function ModalActions({
   docId,
   totalLikes,
   likedPhoto,
@@ -107,7 +107,7 @@ export default function Actions({
   );
 }
 
-Actions.propTypes = {
+ModalActions.propTypes = {
   docId: PropTypes.string.isRequired,
   totalLikes: PropTypes.number.isRequired,
   likedPhoto: PropTypes.bool.isRequired,

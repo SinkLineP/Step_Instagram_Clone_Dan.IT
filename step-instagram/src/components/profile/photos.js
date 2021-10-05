@@ -4,16 +4,15 @@ import PropTypes from 'prop-types';
 import Skeleton from 'react-loading-skeleton';
 import { Modal, Box } from '@material-ui/core';
 import './styles/photos.scss';
-import Actions from '../post/actions.js';
-import Comments from '../post/comments.js';
-import Header from '../post/header.js';
+import ModalActions from './modal/modal-actions.js';
+import ModalComments from './modal/modal-comments.js';
 
 const style = {
   position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 1000,
+  width: 400,
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
@@ -21,12 +20,11 @@ const style = {
 };
 
 export default function Photos({ photos }) {
+  const [dateModal, setDateModal] = useState({ likes: [] });
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const commentInput = useRef(null);
   const handleFocus = () => commentInput.current.focus();
-
   return (
     <div className="h-16 border-t border-gray-primary mt-12 pt-4">
       <div className="grid grid-cols-3 gap-8 mt-4 mb-12">
@@ -35,40 +33,13 @@ export default function Photos({ photos }) {
           : photos.length > 0
           ? photos.map((photo) => (
               <>
-                <Modal
-                  open={open}
-                  onClose={handleClose}
-                  aria-labelledby="modal-modal-title"
-                  aria-describedby="modal-modal-description"
+                <button
+                  type="button"
+                  onClick={() => {
+                    setOpen(true);
+                    setDateModal(photo);
+                  }}
                 >
-                  <Box sx={style}>
-                    <div>
-                      <div>
-                        <Header username={photo.username} />
-                      </div>
-                      <div>
-                        <Actions
-                          docId={photo.docId}
-                          totalLikes={photo.likes.length}
-                          likedPhoto={photo.userLikedPhoto}
-                          handleFocus={handleFocus}
-                          src={photo.imageSrc}
-                          caption={photo.caption}
-                          likeSrc={photo.likeImg}
-                        />
-                      </div>
-                      <div>
-                        <Comments
-                          docId={photo.docId}
-                          comments={photo.comments}
-                          posted={photo.dateCreated}
-                          commentInput={commentInput}
-                        />
-                      </div>
-                    </div>
-                  </Box>
-                </Modal>
-                <button type="button" onClick={handleOpen}>
                   <div key={photo.docId} className="relative group">
                     <img src={photo.imageSrc} alt={photo.caption} />
 
@@ -110,6 +81,36 @@ export default function Photos({ photos }) {
               </>
             ))
           : null}
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <div>
+              <div>
+                <ModalActions
+                  docId={dateModal.docId}
+                  totalLikes={dateModal.likes.length}
+                  likedPhoto={dateModal.userLikedPhoto}
+                  handleFocus={handleFocus}
+                  src={dateModal.imageSrc}
+                  caption={dateModal.caption}
+                  likeSrc={dateModal.likeImg}
+                />
+              </div>
+              <div>
+                <ModalComments
+                  docId={dateModal.docId}
+                  comments={dateModal.comments}
+                  posted={dateModal.dateCreated}
+                  commentInput={commentInput}
+                />
+              </div>
+            </div>
+          </Box>
+        </Modal>
       </div>
       {!photos || (photos.length === 0 && <p className="text-center text-2xl">No Posts Yet</p>)}
     </div>
