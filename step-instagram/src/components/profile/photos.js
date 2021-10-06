@@ -2,22 +2,10 @@
 import { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import Skeleton from 'react-loading-skeleton';
-import { Modal, Box, Button } from '@material-ui/core';
+import { Button } from '@mui/material';
 import './styles/photos.scss';
-import ModalActions from './modal/modal-actions.js';
-import ModalComments from './modal/modal-comments.js';
-
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4
-};
+import ModalAddPost from './modal/add-post/modal-add-post.js';
+import ModalShowTemplate from './modal/show-post/modal-show-template.js';
 
 export default function Photos({ photos }) {
   const [dateModal, setDateModal] = useState({ likes: [] });
@@ -98,69 +86,16 @@ export default function Photos({ photos }) {
               </>
             ))
           : null}
-        <Modal
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box sx={style}>
-            <div>
-              <div>
-                <ModalActions
-                  docId={dateModal.docId}
-                  totalLikes={dateModal.likes.length}
-                  likedPhoto={dateModal.userLikedPhoto}
-                  handleFocus={handleFocus}
-                  src={dateModal.imageSrc}
-                  caption={dateModal.caption}
-                  likeSrc={dateModal.likeImg}
-                />
-              </div>
-              <div>
-                <ModalComments
-                  docId={dateModal.docId}
-                  comments={dateModal.comments}
-                  posted={dateModal.dateCreated}
-                  commentInput={commentInput}
-                />
-              </div>
-            </div>
-          </Box>
-        </Modal>
+        <ModalShowTemplate
+          openOption={open}
+          closeModal={handleClose}
+          focusInput={handleFocus}
+          modalComment={commentInput}
+          item={dateModal}
+        />
       </div>
       <div>
-        {/* modal add post */}
-        <Modal
-          open={addPost}
-          onClose={handleCloseAddPost}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box className="modal_add_post">
-            <div>
-              <div>
-                <p>Добавьте публикацию:</p>
-                <br />
-                <form encType="multipart/form-data" method="post">
-                  <p>
-                    <input type="file" name="photo" multiple accept="image/*,image/jpeg" />
-                    <p>
-                      <br />
-                      <br />
-                      Описание:
-                      <br />
-                      <br />
-                      <textarea name="comment" cols="40" rows="3" className="description" />
-                    </p>
-
-                    <input type="submit" value="Отправить" className="submit_form" />
-                  </p>
-                </form>
-              </div>
-            </div>
-          </Box>
-        </Modal>
+        <ModalAddPost modalOpen={addPost} closeModal={handleCloseAddPost} />
       </div>
       {!photos || (photos.length === 0 && <p className="text-center text-2xl">No Posts Yet</p>)}
     </div>

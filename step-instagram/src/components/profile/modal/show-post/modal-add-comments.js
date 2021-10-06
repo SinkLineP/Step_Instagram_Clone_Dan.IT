@@ -1,7 +1,8 @@
 import { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
-import FirebaseContext from '../../../context/firebase';
-import UserContext from '../../../context/user';
+import FirebaseContext from '../../../../context/firebase';
+import UserContext from '../../../../context/user';
+import './styles/modal-add-comments.scss';
 
 export default function ModalAddComments({ docId, comments, setComments, commentInput }) {
   const [comment, setComment] = useState('');
@@ -26,7 +27,7 @@ export default function ModalAddComments({ docId, comments, setComments, comment
   };
 
   return (
-    <div className="border-t border-gray-primary">
+    <div className="border-t border-gray-primary pos-comments size-input">
       <form
         className="flex justify-between pl-0 pr-5"
         method="POST"
