@@ -36,6 +36,7 @@ export default function Photos({ photos }) {
     <div className="h-16 border-t border-gray-primary mt-12 pt-4">
       <Button
         variant="contained"
+        color="primary"
         disableElevation
         className="btn_add_post"
         onClick={handleOpenAddPost}
@@ -129,6 +130,7 @@ export default function Photos({ photos }) {
         </Modal>
       </div>
       <div>
+        {/* modal add post */}
         <Modal
           open={addPost}
           onClose={handleCloseAddPost}
