@@ -2,7 +2,7 @@
 import { useState, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
 import Skeleton from 'react-loading-skeleton';
-import { Button } from '@mui/material';
+import { Button } from '@material-ui/core';
 import './styles/photos.scss';
 import ModalAddPost from './modal/add-post/modal-add-post.js';
 import ModalShowTemplate from './modal/show-post/modal-show-template.js';
