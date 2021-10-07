@@ -35,7 +35,7 @@ export default function ModalAddPost({ modalOpen, closeModal }) {
       <Box className="modal_add_post">
         <div>
           <div>
-            <p>Add Post: </p>
+            <p className="text-2xl">Add Post: </p>
             <br />
             <form
               encType="multipart/form-data"
