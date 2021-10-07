@@ -20,8 +20,9 @@
 }
 
 .description {
-    border: 1px solid #000;
+    border: 1px solid rgba(0, 0, 0, 0.56);
     resize: none;
+    border-radius: 3px;
 }
 
 .submit_form {
