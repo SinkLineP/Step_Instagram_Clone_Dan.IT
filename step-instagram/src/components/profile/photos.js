@@ -20,7 +20,6 @@ export default function Photos({ photos }) {
   // add comment to post
   const commentInput = useRef(null);
   const handleFocus = () => commentInput.current.focus();
-  // user login
 
   return (
     <div className="h-16 border-t border-gray-primary mt-12 pt-4">
