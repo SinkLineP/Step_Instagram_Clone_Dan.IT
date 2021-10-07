@@ -89,7 +89,7 @@ export default function Header({
           ) : (
             <>
               <p className="mr-10">
-                <span className="font-bold">{photosCount}</span> photos
+                <span className="font-bold">{photosCount}</span> photossss
               </p>
               <p className="mr-10">
                 <span className="font-bold">{followerCount}</span>

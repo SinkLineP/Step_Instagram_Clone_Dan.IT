@@ -5,6 +5,10 @@ import { Button, Input, Stack } from '@mui/material';
 import './styles/modal-add-post.scss';
 
 export default function ModalAddPost({ modalOpen, closeModal }) {
+  const submitPost = (event) => {
+    event.preventDefault();
+  };
+
   return (
     <Modal
       open={modalOpen}
@@ -38,7 +42,7 @@ export default function ModalAddPost({ modalOpen, closeModal }) {
                   <Button variant="contained" color="error" onClick={closeModal}>
                     Decline
                   </Button>
-                  <Button variant="contained" color="primary">
+                  <Button variant="contained" color="primary" onClick={submitPost}>
                     Submit
                   </Button>
                 </Stack>
