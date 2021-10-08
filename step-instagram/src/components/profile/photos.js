@@ -1,29 +1,22 @@
 /* eslint-disable no-nested-ternary */
-import { useState, useRef } from 'react';
+// eslint-disable-next-line
+import { useState, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
 import Skeleton from 'react-loading-skeleton';
-import { Modal, Box, Button } from '@material-ui/core';
+import { Button } from '@material-ui/core';
+import useUser from '../../hooks/use-user';
+import UserContext from '../../context/user';
 import './styles/photos.scss';
-import ModalActions from './modal/modal-actions.js';
-import ModalComments from './modal/modal-comments.js';
+import ModalAddPost from './modal/add-post/modal-add-post.js';
+import ModalShowTemplate from './modal/show-post/modal-show-template.js';
 
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4
-};
-
-export default function Photos({ photos }) {
+export default function Photos({
+  photos,
+  profile: { userId: profileUserId, username: profileUsername }
+}) {
   const [dateModal, setDateModal] = useState({ likes: [] });
   // modal window open post
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   // modal window add post
   const [addPost, setAddPost] = useState(false);
@@ -32,12 +25,27 @@ export default function Photos({ photos }) {
   // add comment to post
   const commentInput = useRef(null);
   const handleFocus = () => commentInput.current.focus();
+  // current user
+  const { user: loggedInUser } = useContext(UserContext);
+  const { user } = useUser(loggedInUser?.uid);
+
   return (
     <div className="h-16 border-t border-gray-primary mt-12 pt-4">
-      <Button variant="contained" disableElevation onClick={handleOpenAddPost}>
-        Add post
-      </Button>
-      <div className="h-16 border-t border-gray-primary mt-12 pt-4" />
+      {user?.username === profileUsername ? (
+        <>
+          <Button
+            variant="contained"
+            color="primary"
+            disableElevation
+            className="btn_add_post"
+            onClick={handleOpenAddPost}
+          >
+            Add post
+          </Button>
+          <div className="h-16 border-t border-gray-primary mt-12 pt-4" />
+        </>
+      ) : null}
+
       <div className="grid grid-cols-3 gap-8 mt-4 mb-12">
         {!photos
           ? new Array(12).fill(0).map((_, i) => <Skeleton key={i} width={320} height={400} />)
@@ -90,51 +98,21 @@ export default function Photos({ photos }) {
               </>
             ))
           : null}
-        <Modal
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box sx={style}>
-            <div>
-              <div>
-                <ModalActions
-                  docId={dateModal.docId}
-                  totalLikes={dateModal.likes.length}
-                  likedPhoto={dateModal.userLikedPhoto}
-                  handleFocus={handleFocus}
-                  src={dateModal.imageSrc}
-                  caption={dateModal.caption}
-                  likeSrc={dateModal.likeImg}
-                />
-              </div>
-              <div>
-                <ModalComments
-                  docId={dateModal.docId}
-                  comments={dateModal.comments}
-                  posted={dateModal.dateCreated}
-                  commentInput={commentInput}
-                />
-              </div>
-            </div>
-          </Box>
-        </Modal>
+        <ModalShowTemplate
+          openOption={open}
+          closeModal={handleClose}
+          focusInput={handleFocus}
+          modalComment={commentInput}
+          item={dateModal}
+        />
       </div>
       <div>
-        <Modal
-          open={addPost}
-          onClose={handleCloseAddPost}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box sx={style}>
-            <div>
-              <div>images</div>
-              <div>text</div>
-            </div>
-          </Box>
-        </Modal>
+        <ModalAddPost
+          modalOpen={addPost}
+          closeModal={handleCloseAddPost}
+          profileUserId={profileUserId}
+          profileUsername={profileUsername}
+        />
       </div>
       {!photos || (photos.length === 0 && <p className="text-center text-2xl">No Posts Yet</p>)}
     </div>
@@ -142,5 +120,13 @@ export default function Photos({ photos }) {
 }
 
 Photos.propTypes = {
-  photos: PropTypes.array
+  photos: PropTypes.array,
+  profile: PropTypes.shape({
+    docId: PropTypes.string,
+    userId: PropTypes.string,
+    fullName: PropTypes.string,
+    username: PropTypes.string,
+    followers: PropTypes.array,
+    following: PropTypes.array
+  }).isRequired
 };

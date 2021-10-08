@@ -16,8 +16,6 @@ export default function Sidebar() {
     } = {}
   } = useContext(LoggedInUserContext);
 
-  console.log(useContext(LoggedInUserContext));
-
   return (
     <div className="p-4">
       <User username={username} fullName={fullName} />
@@ -26,13 +24,6 @@ export default function Sidebar() {
         following={following}
         loggedInUserDocId={docId}
         titleSideBar={title[0]}
-      />
-      <Followed
-        userId={userId}
-        following={following}
-        loggedInUserDocId={docId}
-        titleSideBar={title[1]}
-        // currUser={currentUser}
       />
     </div>
   );
