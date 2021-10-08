@@ -25,9 +25,15 @@ export default function ModalAddPost({ modalOpen, closeModal, item }) {
     return firebase
       .firestore()
       .collection('photos')
-      .doc(postDescription.docId)
-      .update({
-        caption: FieldValue.arrayUnion({ postDescription })
+      .add({
+        userId: 'nGQOi5puSyfMqJJmNSTsF6tv8JG2',
+        imageSrc: `${postImage}`,
+        caption: `Sorry, heroku deleted image ago 10 minuts`,
+        likes: [],
+        comments: [],
+        userLatitude: '40.7128°',
+        userLongitude: '74.0060°',
+        dateCreated: Date.now()
       });
   };
 
