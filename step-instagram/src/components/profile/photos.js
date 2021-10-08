@@ -1,9 +1,11 @@
 /* eslint-disable no-nested-ternary */
 // eslint-disable-next-line
-import { useState, useRef } from 'react';
+import { useState, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
 import Skeleton from 'react-loading-skeleton';
 import { Button } from '@material-ui/core';
+import useUser from '../../hooks/use-user';
+import UserContext from '../../context/user';
 import './styles/photos.scss';
 import ModalAddPost from './modal/add-post/modal-add-post.js';
 import ModalShowTemplate from './modal/show-post/modal-show-template.js';
@@ -23,20 +25,27 @@ export default function Photos({
   // add comment to post
   const commentInput = useRef(null);
   const handleFocus = () => commentInput.current.focus();
+  // current user
+  const { user: loggedInUser } = useContext(UserContext);
+  const { user } = useUser(loggedInUser?.uid);
 
   return (
     <div className="h-16 border-t border-gray-primary mt-12 pt-4">
-      <Button
-        variant="contained"
-        color="primary"
-        disableElevation
-        className="btn_add_post"
-        onClick={handleOpenAddPost}
-      >
-        Add post
-      </Button>
+      {user?.username === profileUsername ? (
+        <>
+          <Button
+            variant="contained"
+            color="primary"
+            disableElevation
+            className="btn_add_post"
+            onClick={handleOpenAddPost}
+          >
+            Add post
+          </Button>
+          <div className="h-16 border-t border-gray-primary mt-12 pt-4" />
+        </>
+      ) : null}
 
-      <div className="h-16 border-t border-gray-primary mt-12 pt-4" />
       <div className="grid grid-cols-3 gap-8 mt-4 mb-12">
         {!photos
           ? new Array(12).fill(0).map((_, i) => <Skeleton key={i} width={320} height={400} />)
