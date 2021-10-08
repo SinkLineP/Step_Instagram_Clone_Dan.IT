@@ -1,5 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { Modal, Box } from '@material-ui/core';
 import { Button, Input, Stack } from '@mui/material';
 import { useState, useContext } from 'react';
@@ -7,6 +8,7 @@ import FirebaseContext from '../../../../context/firebase';
 import UserContext from '../../../../context/user';
 import './styles/modal-add-post.scss';
 import { storage } from '../../../../lib/firebase.js';
+import * as ROUTES from '../../../../constants/routes';
 
 export default function ModalAddPost({ modalOpen, closeModal, profileUserId, profileUsername }) {
   const [image, setImage] = useState(null);
@@ -51,8 +53,6 @@ export default function ModalAddPost({ modalOpen, closeModal, profileUserId, pro
   console.log('Url: ', url);
 
   const submitPost = (event) => {
-    event.preventDefault();
-
     console.log([image]);
     console.log([postDescription]);
 
@@ -129,8 +129,14 @@ export default function ModalAddPost({ modalOpen, closeModal, profileUserId, pro
                     <Button variant="contained" color="error" onClick={closeModal}>
                       Decline
                     </Button>
-                    <Button variant="contained" color="primary" onClick={submitPost}>
-                      Submit
+                    <Button variant="contained" color="primary">
+                      <Link
+                        to={ROUTES.DASHBOARD}
+                        className="font-bold text-white-medium"
+                        onClick={submitPost}
+                      >
+                        Submit
+                      </Link>
                     </Button>
                   </Stack>
                 </p>
