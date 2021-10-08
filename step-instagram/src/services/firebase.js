@@ -55,7 +55,6 @@ export async function getSuggestedProfiles(userId, following) {
 
 export async function getFollowedProfiles(userId, following) {
   let query = firebase.firestore().collection('users');
-  console.log(query);
 
   if (following.length > 0) {
     query = query.where('userId', 'not-in', [...following, userId]);

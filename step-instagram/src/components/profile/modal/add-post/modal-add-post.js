@@ -7,7 +7,7 @@ import FirebaseContext from '../../../../context/firebase';
 import UserContext from '../../../../context/user';
 import './styles/modal-add-post.scss';
 
-export default function ModalAddPost({ modalOpen, closeModal, profileUserId }) {
+export default function ModalAddPost({ modalOpen, closeModal, profileUserId, profileUsername }) {
   const [postImage, setPostImage] = useState('');
   const [postDescription, setPostDescription] = useState('');
   const { firebase, FieldValue } = useContext(FirebaseContext);
@@ -36,7 +36,8 @@ export default function ModalAddPost({ modalOpen, closeModal, profileUserId }) {
         ],
         userLatitude: '40.7128°',
         userLongitude: '74.0060°',
-        dateCreated: Date.now()
+        dateCreated: Date.now(),
+        username: `${profileUsername}`
       });
   };
 
@@ -103,5 +104,6 @@ export default function ModalAddPost({ modalOpen, closeModal, profileUserId }) {
 ModalAddPost.propTypes = {
   modalOpen: PropTypes.string,
   closeModal: PropTypes.func,
-  profileUserId: PropTypes.string
+  profileUserId: PropTypes.string,
+  profileUsername: PropTypes.string
 };

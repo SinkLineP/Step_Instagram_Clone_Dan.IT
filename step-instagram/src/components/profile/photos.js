@@ -111,6 +111,7 @@ export default function Photos({
           modalOpen={addPost}
           closeModal={handleCloseAddPost}
           profileUserId={profileUserId}
+          profileUsername={profileUsername}
         />
       </div>
       {!photos || (photos.length === 0 && <p className="text-center text-2xl">No Posts Yet</p>)}
