@@ -1,5 +1,6 @@
 /* eslint-disable no-nested-ternary */
-import { useState, useRef, useContext } from 'react';
+// eslint-disable-next-line
+import { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import Skeleton from 'react-loading-skeleton';
 import { Button } from '@material-ui/core';
@@ -9,19 +10,11 @@ import ModalShowTemplate from './modal/show-post/modal-show-template.js';
 
 export default function Photos({
   photos,
-  profile: {
-    docId: profileDocId,
-    userId: profileUserId,
-    fullName,
-    followers,
-    following,
-    username: profileUsername
-  }
+  profile: { userId: profileUserId, username: profileUsername }
 }) {
   const [dateModal, setDateModal] = useState({ likes: [] });
   // modal window open post
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   // modal window add post
   const [addPost, setAddPost] = useState(false);

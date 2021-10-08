@@ -7,7 +7,6 @@ import { useState, useContext } from 'react';
 import FirebaseContext from '../../../../context/firebase';
 import UserContext from '../../../../context/user';
 import './styles/modal-add-post.scss';
-import { storage } from '../../../../lib/firebase.js';
 import * as ROUTES from '../../../../constants/routes';
 
 export default function ModalAddPost({ modalOpen, closeModal, profileUserId, profileUsername }) {
@@ -15,7 +14,8 @@ export default function ModalAddPost({ modalOpen, closeModal, profileUserId, pro
   const [postDescription, setPostDescription] = useState('');
   const [url, setUrl] = useState('');
   const [progress, setProgress] = useState(0);
-  const { firebase } = useContext(FirebaseContext);
+  const { firebase, storage } = useContext(FirebaseContext);
+  const isInvalid = image === null || postDescription === '';
   const {
     user: { displayName }
   } = useContext(UserContext);
@@ -49,12 +49,8 @@ export default function ModalAddPost({ modalOpen, closeModal, profileUserId, pro
     );
   };
 
-  console.log('Image: ', image);
-  console.log('Url: ', url);
-
-  const submitPost = (event) => {
-    console.log([image]);
-    console.log([postDescription]);
+  const submitPost = () => {
+    console.log('submit');
 
     return firebase
       .firestore()
@@ -129,7 +125,13 @@ export default function ModalAddPost({ modalOpen, closeModal, profileUserId, pro
                     <Button variant="contained" color="error" onClick={closeModal}>
                       Decline
                     </Button>
-                    <Button variant="contained" color="primary">
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      disabled={isInvalid}
+                      className={`text-white rounded font-bold
+                      ${isInvalid && 'opacity-50'}`}
+                    >
                       <Link
                         to={ROUTES.DASHBOARD}
                         className="font-bold text-white-medium"
