@@ -6,18 +6,54 @@ import { useState, useContext } from 'react';
 import FirebaseContext from '../../../../context/firebase';
 import UserContext from '../../../../context/user';
 import './styles/modal-add-post.scss';
+import { storage } from '../../../../lib/firebase.js';
 
 export default function ModalAddPost({ modalOpen, closeModal, profileUserId, profileUsername }) {
-  const [postImage, setPostImage] = useState('');
+  const [image, setImage] = useState(null);
   const [postDescription, setPostDescription] = useState('');
-  const { firebase, FieldValue } = useContext(FirebaseContext);
+  const [url, setUrl] = useState('');
+  const [progress, setProgress] = useState(0);
+  const { firebase } = useContext(FirebaseContext);
   const {
     user: { displayName }
   } = useContext(UserContext);
+
+  const handleChange = (e) => {
+    if (e.target.files[0]) {
+      setImage(e.target.files[0]);
+    }
+  };
+
+  const handleUpload = () => {
+    const uploadTask = storage.ref(`images/${image.name}`).put(image);
+    uploadTask.on(
+      'state_changed',
+      (snapshot) => {
+        const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+        setProgress(progress);
+      },
+      (error) => {
+        console.log(error);
+      },
+      () => {
+        storage
+          .ref('images')
+          .child(image.name)
+          .getDownloadURL()
+          .then((url) => {
+            setUrl(url);
+          });
+      }
+    );
+  };
+
+  console.log('Image: ', image);
+  console.log('Url: ', url);
+
   const submitPost = (event) => {
     event.preventDefault();
 
-    console.log([postImage]);
+    console.log([image]);
     console.log([postDescription]);
 
     return firebase
@@ -25,7 +61,7 @@ export default function ModalAddPost({ modalOpen, closeModal, profileUserId, pro
       .collection('photos')
       .add({
         userId: `${profileUserId}`,
-        imageSrc: `${postImage}`,
+        imageSrc: `${url}`,
         caption: `Sorry, heroku deleted image`,
         likes: [],
         comments: [
@@ -62,12 +98,18 @@ export default function ModalAddPost({ modalOpen, closeModal, profileUserId, pro
                       id="contained-button-file"
                       multiple
                       type="file"
-                      onChange={({ target }) => setPostImage(target.value)}
+                      onChange={handleChange}
                     />
-                    <Button className="fileUploadBtn" variant="contained" component="span">
+                    <Button
+                      className="fileUploadBtn"
+                      variant="contained"
+                      component="span"
+                      onClick={handleUpload}
+                    >
                       Upload
                     </Button>
                   </Stack>
+                  <progress value={progress} max="100" />
                   <p>
                     <br />
                     <br />
