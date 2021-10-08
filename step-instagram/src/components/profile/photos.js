@@ -7,7 +7,17 @@ import './styles/photos.scss';
 import ModalAddPost from './modal/add-post/modal-add-post.js';
 import ModalShowTemplate from './modal/show-post/modal-show-template.js';
 
-export default function Photos({ photos }) {
+export default function Photos({
+  photos,
+  profile: {
+    docId: profileDocId,
+    userId: profileUserId,
+    fullName,
+    followers,
+    following,
+    username: profileUsername
+  }
+}) {
   const [dateModal, setDateModal] = useState({ likes: [] });
   // modal window open post
   const [open, setOpen] = useState(false);
@@ -97,8 +107,11 @@ export default function Photos({ photos }) {
         />
       </div>
       <div>
-        <ModalAddPost modalOpen={addPost} closeModal={handleCloseAddPost} item={photos} />
-        {console.log(photos)}
+        <ModalAddPost
+          modalOpen={addPost}
+          closeModal={handleCloseAddPost}
+          profileUserId={profileUserId}
+        />
       </div>
       {!photos || (photos.length === 0 && <p className="text-center text-2xl">No Posts Yet</p>)}
     </div>
@@ -106,5 +119,13 @@ export default function Photos({ photos }) {
 }
 
 Photos.propTypes = {
-  photos: PropTypes.array
+  photos: PropTypes.array,
+  profile: PropTypes.shape({
+    docId: PropTypes.string,
+    userId: PropTypes.string,
+    fullName: PropTypes.string,
+    username: PropTypes.string,
+    followers: PropTypes.array,
+    following: PropTypes.array
+  }).isRequired
 };

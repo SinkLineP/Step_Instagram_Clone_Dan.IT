@@ -7,10 +7,9 @@ import FirebaseContext from '../../../../context/firebase';
 import UserContext from '../../../../context/user';
 import './styles/modal-add-post.scss';
 
-export default function ModalAddPost({ modalOpen, closeModal, item }) {
+export default function ModalAddPost({ modalOpen, closeModal, profileUserId }) {
   const [postImage, setPostImage] = useState('');
   const [postDescription, setPostDescription] = useState('');
-  // const [caption, setCaption] = useState(item.caption);
   const { firebase, FieldValue } = useContext(FirebaseContext);
   const {
     user: { displayName }
@@ -20,17 +19,21 @@ export default function ModalAddPost({ modalOpen, closeModal, item }) {
 
     console.log([postImage]);
     console.log([postDescription]);
-    console.log(item);
 
     return firebase
       .firestore()
       .collection('photos')
       .add({
-        userId: 'nGQOi5puSyfMqJJmNSTsF6tv8JG2',
+        userId: `${profileUserId}`,
         imageSrc: `${postImage}`,
-        caption: `Sorry, heroku deleted image ago 10 minuts`,
+        caption: `Sorry, heroku deleted image`,
         likes: [],
-        comments: [],
+        comments: [
+          {
+            displayName: `${displayName}`,
+            comment: `${postDescription}`
+          }
+        ],
         userLatitude: '40.7128°',
         userLongitude: '74.0060°',
         dateCreated: Date.now()
@@ -100,5 +103,5 @@ export default function ModalAddPost({ modalOpen, closeModal, item }) {
 ModalAddPost.propTypes = {
   modalOpen: PropTypes.string,
   closeModal: PropTypes.func,
-  item: PropTypes.array
+  profileUserId: PropTypes.string
 };
