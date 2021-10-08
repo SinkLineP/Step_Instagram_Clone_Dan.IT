@@ -16,7 +16,6 @@ export default function ModalAddComments({ docId, comments, setComments, comment
 
     setComments([...comments, { displayName, comment }]);
     setComment('');
-
     return firebase
       .firestore()
       .collection('photos')

@@ -97,7 +97,8 @@ export default function Photos({ photos }) {
         />
       </div>
       <div>
-        <ModalAddPost modalOpen={addPost} closeModal={handleCloseAddPost} />
+        <ModalAddPost modalOpen={addPost} closeModal={handleCloseAddPost} item={photos} />
+        {console.log(photos)}
       </div>
       {!photos || (photos.length === 0 && <p className="text-center text-2xl">No Posts Yet</p>)}
     </div>
